@@ -4,12 +4,21 @@ author: "Jacob Khaykin"
 format: html
 execute: 
     echo: false
+    warning: false
 ---
-Arrest decisions during traffic stops reflect important patterns in policing outcomes and can vary based on driver characteristics like race. Using traffic stop data from New Orleans collected by the Stanford Open Policing Project with about 400,000 observations from 2011 to 2018, we ask whether arrest rates differ by driver race.
+Arrest decisions during traffic stops reflect important patterns in policing outcomes and can vary based on driver characteristics like race. Using traffic stop data from New Orleans collected by the Stanford Open Policing Project with about 400,000 observations from 2011 to 2018, we ask whether arrest rates differ by driver race. One potential weakness of our model is that missing or unmeasured variables, like the reason for the stop, may violate the assumption of unconfoundedness and bias our estimates.
+
 
 
 ```{r}
 #| message: false
 library(tidyverse)
 library(primer.data)
+library(tidymodels)
+library(broom)
 ```
+
+$$
+\log\left(\frac{\mathbb{P}(Y = 1)}{1 - \mathbb{P}(Y = 1)}\right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_k X_k
+$$
+
