@@ -2,5 +2,14 @@
 title: "Stops"
 author: "Jacob Khaykin"
 format: html
+execute: 
+    echo: false
 ---
+Arrest decisions during traffic stops reflect important patterns in policing outcomes and can vary based on driver characteristics like race. Using traffic stop data from New Orleans collected by the Stanford Open Policing Project with about 400,000 observations from 2011 to 2018, we ask whether arrest rates differ by driver race.
 
+
+```{r}
+#| message: false
+library(tidyverse)
+library(primer.data)
+```
