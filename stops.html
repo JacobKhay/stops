@@ -99,7 +99,7 @@ window.Quarto = {
 </header>
 
 
-<p>Arrest decisions during traffic stops reflect important patterns in policing outcomes and can vary based on driver characteristics like race. Using traffic stop data from New Orleans collected by the Stanford Open Policing Project with about 400,000 observations from 2011 to 2018, we ask whether arrest rates differ by driver race. One potential weakness of our model is that missing or unmeasured variables, like the reason for the stop, may violate the assumption of unconfoundedness and bias our estimates.</p>
+<p>Arrest decisions during traffic stops reflect important patterns in policing outcomes and can vary based on driver characteristics like race. Using traffic stop data from New Orleans collected by the Stanford Open Policing Project with about 400,000 observations from 2011 to 2018, we ask whether arrest rates differ by driver race. One potential weakness of our model is that missing or unmeasured variables, like the reason for the stop, may violate the assumption of unconfoundedness and bias our estimates. We model the probability of arrest, a binary outcome indicating whether a driver was arrested or not, as a linear function of driver sex, race, and their interaction with police zone. In our model, Black male drivers in some zones face arrest probabilities exceeding 30%, while comparable White drivers show rates closer to 20%, with 95% confidence intervals confirming these differences are unlikely due to chance. The estimates for our quantities of interest might be wrong due to unmeasured confounders, such as the reason for the stop or officer-specific behavior, which are not included in the model. Additionally, if the data are not representative—perhaps due to missingness or biased reporting—our estimates may not reflect the true arrest probabilities. A more conservative estimate for the arrest probability of Black male drivers might be closer to 25%, with a wider confidence interval of 18% to 32% to account for this uncertainty.</p>
 <p><span class="math display">\[
 \log\left(\frac{\mathbb{P}(Y = 1)}{1 - \mathbb{P}(Y = 1)}\right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_k X_k
 \]</span></p>
@@ -908,6 +908,15 @@ window.Quarto = {
 </tbody>
 </table>
 
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="stops_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
 </div>

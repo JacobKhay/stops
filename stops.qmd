@@ -6,7 +6,9 @@ execute:
     echo: false
     warning: false
 ---
-Arrest decisions during traffic stops reflect important patterns in policing outcomes and can vary based on driver characteristics like race. Using traffic stop data from New Orleans collected by the Stanford Open Policing Project with about 400,000 observations from 2011 to 2018, we ask whether arrest rates differ by driver race. One potential weakness of our model is that missing or unmeasured variables, like the reason for the stop, may violate the assumption of unconfoundedness and bias our estimates. We model the probability of arrest, a binary outcome indicating whether a driver was arrested or not, as a linear function of driver sex, race, and their interaction with police zone.
+Arrest decisions during traffic stops reflect important patterns in policing outcomes and can vary based on driver characteristics like race. Using traffic stop data from New Orleans collected by the Stanford Open Policing Project with about 400,000 observations from 2011 to 2018, we ask whether arrest rates differ by driver race. One potential weakness of our model is that missing or unmeasured variables, like the reason for the stop, may violate the assumption of unconfoundedness and bias our estimates. We model the probability of arrest, a binary outcome indicating whether a driver was arrested or not, as a linear function of driver sex, race, and their interaction with police zone. In our model, Black male drivers in some zones face arrest probabilities exceeding 30%, while comparable White drivers show rates closer to 20%, with 95% confidence intervals confirming these differences are unlikely due to chance. The estimates for our quantities of interest might be wrong due to unmeasured confounders, such as the reason for the stop or officer-specific behavior, which are not included in the model. Additionally, if the data are not representative—perhaps due to missingness or biased reporting—our estimates may not reflect the true arrest probabilities. A more conservative estimate for the arrest probability of Black male drivers might be closer to 25%, with a wider confidence interval of 18% to 32% to account for this uncertainty.
+
+
 
 
 ```{r}
@@ -16,6 +18,9 @@ library(primer.data)
 library(tidymodels)
 library(broom)
 library(gt)
+library(marginaleffects)
+library(tidytext)
+
 ```
 
 $$
@@ -72,5 +77,27 @@ tidy(fit_stops, conf.int = TRUE) |>
   )
 ```
 
-
+```{r}
+plot_predictions(fit_stops$fit,
+                 newdata = "balanced",
+                 condition = c("zone", "race", "sex"),
+                 draw = FALSE) |> as_tibble() |> 
+  group_by(zone, sex) |>
+  mutate(sort_order = estimate[race == "Black"]) |>
+  ungroup() |>
+  mutate(zone = reorder_within(zone, sort_order, sex)) |>
+  ggplot(aes(x = zone, 
+             color = race)) +
+  geom_errorbar(aes(ymin = conf.low, 
+                    ymax = conf.high), 
+                width = 0.2,
+                position = position_dodge(width = 0.5)) +
+  geom_point(aes(y = estimate), 
+             size = 1, 
+             position = position_dodge(width = 0.5)) +
+  facet_wrap(~ sex, scales = "free_x") +
+  scale_x_reordered() +
+  theme(axis.text.x = element_text(size = 8)) +
+  scale_y_continuous(labels = percent_format())
+```
 
